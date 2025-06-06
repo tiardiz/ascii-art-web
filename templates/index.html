@@ -1,13 +1,56 @@
-<!DOCTYPE html>
-<html>
+<!-- <!DOCTYPE html>
+<html lang="ru">
 <head>
-    <title>Пример</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Art</title>
 </head>
 <body>
-  <h1>Привет, {{.Name}}!</h1>
-  <form action="/submit" method="POST">
-    <input type="text" name="username" placeholder="Введите имя">
-    <button type="submit">Отправить</button>
-  </form>
+    <h1>ASCII art web</h1>
+
+    <form action="/submit" method="POST">
+        <textarea name="username" placeholder="Введите текст" rows="5" cols="40" required></textarea>
+        <br>
+        <button type="submit">Отправить</button>
+    </form>
+
+    {{if .ASCII}}
+    <h2>Ваш ASCII арт:</h2>
+    <pre>{{.ASCII}}</pre>
+    {{end}}
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Art</title>
+</head>
+<body>
+    <h1>ASCII art web</h1>
+
+    <form action="/submit" method="POST">
+        <textarea name="username" placeholder="Введите текст" rows="5" cols="40" required></textarea>
+        <br>
+
+        <!-- Добавляем выпадающий список для выбора стиля баннера -->
+        <label for="style">Выберите стиль баннера:</label>
+        <select name="style" id="style">
+            <option value="standard">Standard</option>
+            <option value="shadow">Shadow</option>
+            <option value="thinkertoy">Thinkertoy</option>
+        </select>
+        <br>
+
+        <button type="submit">Отправить</button>
+    </form>
+
+    {{if .ASCII}}
+    <h2>Ваш ASCII арт:</h2>
+    <pre>{{.ASCII}}</pre>
+    {{end}}
+
 </body>
 </html>
