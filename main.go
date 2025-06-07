@@ -31,16 +31,18 @@ func main() {
 	}
 }
 
-// handler для главной страницы
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
-		Name string
+		Name  string
+		ASCII string
 	}{
-		Name: "Гость", // Здесь можно задать значение по умолчанию
+		Name:  "Гость",
+		ASCII: "",
 	}
 
 	err := tmpl.Execute(w, data)
 	if err != nil {
+		log.Printf("Ошибка шаблона: %v", err)
 		http.Error(w, "Ошибка при отображении страницы", http.StatusInternalServerError)
 	}
 }
@@ -80,42 +82,3 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Ошибка при отображении страницы", http.StatusInternalServerError)
 	}
 }
-
-// func main() {
-// 	if len(os.Args) != 2 {
-// 		fmt.Print("error")
-// 	}
-// 	input := os.Args[1]
-// 	fmt.Print(ASCIIart2(input))
-// }
-
-// func ASCIIart2(input string) string {
-
-// 	inputfile, err := os.ReadFile("thinkertoy.txt")
-// 	if err != nil {
-// 		fmt.Println("error")
-// 		return ""
-// 	}
-
-// 	inputfileLines := strings.Split(string(inputfile), "\n")
-
-// 	words := strings.Split(input, "\n")
-
-// 	result := ""
-
-// 	for _, word := range words {
-// 		for i := 0; i < 8; i++ {
-// 			for _, char := range word {
-// 				index := i + (int(char-' ') * 9) + 1
-// 				if index < 0 || index >= len(inputfileLines) {
-// 					// Если вышли за пределы, просто пропускаем символ
-// 					continue
-// 				}
-// 				result += inputfileLines[index]
-// 			}
-// 			result += "\n"
-// 		}
-// 	}
-
-// 	return result
-// }
