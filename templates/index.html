@@ -25,11 +25,12 @@
 
         <button type="submit">Отправить</button>
     </form>
-
     {{if .ASCII}}
     <h2>Ваш ASCII арт:</h2>
-    <pre>{{.ASCII}}</pre>
-    {{end}}
+    <div class = "output">
+        <pre>{{.ASCII}}</pre>
+        {{end}}
 
+    </div>
 </body>
 </html>

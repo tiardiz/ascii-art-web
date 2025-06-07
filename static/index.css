@@ -3,6 +3,18 @@ body {
     flex-direction: column;
     /* justify-content: center; */
     align-items: center; 
-    height: 100vh;
+    height: 100%;
     margin: 0;
+    background-color: aqua;
 }
+
+.output{
+    overflow-y: auto;
+    overflow-x: auto;
+}
+pre{
+
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
