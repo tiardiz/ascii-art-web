@@ -1,20 +1,20 @@
 body {
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center; 
     height: 100%;
     margin: 0;
-    background-color: aqua;
 }
 
 .output{
     overflow-y: auto;
     overflow-x: auto;
 }
-pre{
 
-    overflow-y: auto;
-    overflow-x: auto;
+pre {
+   width: 800px;
+  height: 700px;
+  overflow-x: auto;
+  overflow-y: auto;
+  border: 1px solid #ccc;
 }
-
