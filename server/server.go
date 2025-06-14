@@ -21,7 +21,7 @@ func WithRecovery(h http.HandlerFunc) http.HandlerFunc {
 }
 
 // RouteHandler — централизованный роутер
-func RouteHandler(tmpl, tmpl404 *template.Template) http.HandlerFunc {
+func RouteHandler(tmpl, tmplError *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/":
@@ -29,7 +29,7 @@ func RouteHandler(tmpl, tmpl404 *template.Template) http.HandlerFunc {
 		case "/submit":
 			handlers.SubmitHandler(tmpl)(w, r)
 		default:
-			handlers.NotFoundHandler(tmpl404)(w, r)
+			handlers.NotFoundHandler(w, r)
 		}
 	}
 }

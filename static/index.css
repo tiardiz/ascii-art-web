@@ -45,12 +45,15 @@ button:hover{
 }
 
 .text-overlay {
-  position: relative;
+  position: absolute;
+  top: 70vh; /* поднимает текст на 40% от высоты окна */
+  width: 100%;
   color: white;
   text-align: center;
-  align-items: end;
-  padding-top: 80vh;
   z-index: 1;
   font-size: 20px;
+}
+h1{
+  font-size: 30px;
 }
 

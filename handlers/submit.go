@@ -7,21 +7,46 @@ import (
 	"net/http"
 )
 
+var tmplError *template.Template
+
+func SetErrorTemplate(t *template.Template) {
+	tmplError = t
+}
+func isValidText(text string) bool {
+	hasVisibleChar := false
+	for _, ch := range text {
+		if ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' { // Добавил '\r'
+			continue
+		}
+		if ch < 33 || ch > 126 {
+			return false
+		}
+		hasVisibleChar = true
+	}
+	return hasVisibleChar
+}
+
 func SubmitHandler(tmpl *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
-			http.Error(w, "Метод не разрешён", http.StatusMethodNotAllowed)
+			MethodNotAllowedHandler(w, r)
 			return
 		}
-
 		err := r.ParseForm()
 		if err != nil {
-			http.Error(w, "Ошибка при чтении данных", http.StatusBadRequest)
+			BadRequestHandler(w, r)
 			return
 		}
 
 		text := r.FormValue("username")
 		style := r.FormValue("style")
+
+		// fmt.Printf("DEBUG text with quotes: %#q\n", text)
+		// fmt.Println("isValidText:", isValidText(text))
+		if text == "" || style == "" || !isValidText(text) {
+			BadRequestHandler(w, r)
+			return
+		}
 
 		standardHash := "e194f1033442617ab8a78e1ca63a2061f5cc07a3f05ac226ed32eb9dfd22a6bf"
 		shadowHash := "26b94d0b134b77e9fd23e0360bfd81740f80fb7f6541d1d8c5d85e73ee550f73"
@@ -44,10 +69,13 @@ func SubmitHandler(tmpl *template.Template) http.HandlerFunc {
 			}
 			err = tmpl.Execute(w, data)
 			if err != nil {
+				InternalServerErrorHandler(w, r)
 				http.Error(w, "Ошибка отображения страницы", http.StatusInternalServerError)
 			}
 		} else {
+			InternalServerErrorHandler(w, r)
 			http.Error(w, "Ошибка генерации ASCII", http.StatusInternalServerError)
 		}
 	}
+
 }

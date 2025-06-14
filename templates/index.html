@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASCII Art</title>
+    <link rel ="icon" href="/static/favicon.ico">
 
     <link rel="stylesheet" href="static/index.css">
 </head>
@@ -11,24 +12,14 @@
     <h1>ASCII ART GENERATOR:</h1>
 
     <form action="/submit" method="POST">
-        <textarea name="username" placeholder="Введите текст" rows="5" cols="40" required></textarea>
+        <textarea name="username" placeholder="Введите текст" rows="5" cols="40" required>{{.Input}}</textarea>
         <br>
-
-        <!-- Добавляем выпадающий список для выбора стиля баннера -->
-        <!-- <label for="style">Text style:</label>
-
-        <select name="style" id="style">
-            <option value="standard">Standard</option>
-            <option value="shadow">Shadow</option>
-            <option value="thinkertoy">Thinkertoy</option>
-        </select> -->
         <label for="style">Text style:</label>
 <select name="style" id="style">
     <option value="standard" {{if eq .Style "standard"}}selected{{end}}>Standard</option>
     <option value="shadow" {{if eq .Style "shadow"}}selected{{end}}>Shadow</option>
     <option value="thinkertoy" {{if eq .Style "thinkertoy"}}selected{{end}}>Thinkertoy</option>
 </select>
-
         <br>
 
         <button type="submit" class = "butt">Send</button>
