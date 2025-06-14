@@ -12,20 +12,17 @@ var tmpl *template.Template
 var tmplError *template.Template
 
 func main() {
-	// var err error
 	err := handlers.InitTemplates()
 	if err != nil {
 		log.Fatalf("Ошибка загрузки шаблона ошибки: %v", err)
-	}
-	tmplError, err = template.ParseFiles("templates/error.html")
-	if err != nil {
-		log.Fatalf("Ошибка загрузки шаблона 404: %v", err)
 	}
 
 	tmpl, err = template.ParseFiles("templates/index.html")
 	if err != nil {
 		log.Fatalf("Ошибка загрузки шаблона: %v", err)
 	}
+
+	//для css и js, etc
 	http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
 		path := r.URL.Path[len("/static/"):]
 		if path == "" {
@@ -40,7 +37,7 @@ func main() {
 	http.HandleFunc("/submit", server.WithRecovery(handlers.SubmitHandler(tmpl)))
 
 	http.HandleFunc("/test500", func(w http.ResponseWriter, r *http.Request) {
-		handlers.ErrorHandler(w, 500, "Тестовая внутренняя ошибка", tmplError)
+		handlers.InternalServerErrorHandler(w, r)
 	})
 
 	log.Println("Сервер запущен на : http://localhost:8080/")

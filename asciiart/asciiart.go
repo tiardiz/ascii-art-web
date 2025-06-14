@@ -29,6 +29,8 @@ func ASCIIart(input, style string) string {
 
 	fmtFilecontent := fmtFilecontentLines(fileContent)
 	input = strings.ReplaceAll(input, "\\n", "\n")
+	input = strings.ReplaceAll(input, "\\r", "")
+	input = strings.ReplaceAll(input, "\\t", "    ")
 	lines := strings.Split(input, "\n")
 
 	nbrLinesPerChar := 9

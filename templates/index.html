@@ -8,11 +8,12 @@
 
     <link rel="stylesheet" href="static/index.css">
 </head>
+<script src="/static/script.js"></script>
 <body class = "body">
     <h1>ASCII ART GENERATOR:</h1>
 
     <form action="/submit" method="POST">
-        <textarea name="username" placeholder="Введите текст" rows="5" cols="40" required>{{.Input}}</textarea>
+        <textarea name="username" placeholder="Enter text" rows="5" cols="40" required>{{.Input}}</textarea>
         <br>
         <label for="style">Text style:</label>
 <select name="style" id="style">

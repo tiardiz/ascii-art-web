@@ -9,13 +9,10 @@ import (
 
 var tmplError *template.Template
 
-func SetErrorTemplate(t *template.Template) {
-	tmplError = t
-}
 func isValidText(text string) bool {
 	hasVisibleChar := false
 	for _, ch := range text {
-		if ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' { // Добавил '\r'
+		if ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' {
 			continue
 		}
 		if ch < 33 || ch > 126 {
@@ -55,27 +52,26 @@ func SubmitHandler(tmpl *template.Template) http.HandlerFunc {
 		filepath := "banners/" + style + ".txt"
 		hashBytes, err := asciiart.CalculateFileHash(filepath)
 		if err != nil {
-			http.Error(w, "Ошибка чтения файла баннера", http.StatusInternalServerError)
+			InternalServerErrorHandler(w, r)
 			return
 		}
 
 		hashString := fmt.Sprintf("%x", hashBytes)
-		if hashString == standardHash || hashString == shadowHash || hashString == thinkertoyHash {
-			asciiText := asciiart.ASCIIart(text, style)
-			data := PageData{
-				Input: text,
-				ASCII: asciiText,
-				Style: style,
-			}
-			err = tmpl.Execute(w, data)
-			if err != nil {
-				InternalServerErrorHandler(w, r)
-				http.Error(w, "Ошибка отображения страницы", http.StatusInternalServerError)
-			}
-		} else {
+		if hashString != standardHash && hashString != shadowHash && hashString != thinkertoyHash {
 			InternalServerErrorHandler(w, r)
-			http.Error(w, "Ошибка генерации ASCII", http.StatusInternalServerError)
+			return
 		}
+
+		asciiText := asciiart.ASCIIart(text, style)
+		data := PageData{
+			Input: text,
+			ASCII: asciiText,
+			Style: style,
+		}
+		if err = tmpl.Execute(w, data); err != nil {
+			InternalServerErrorHandler(w, r)
+		}
+
 	}
 
 }

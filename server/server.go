@@ -7,27 +7,23 @@ import (
 	"net/http"
 )
 
-// WithRecovery — middleware для обработки паник
 func WithRecovery(h http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if err := recover(); err != nil {
 				log.Println("Panic:", err)
-				http.Error(w, "500 - Внутренняя ошибка сервера", http.StatusInternalServerError)
+				handlers.InternalServerErrorHandler(w, r)
 			}
 		}()
 		h(w, r)
 	}
 }
 
-// RouteHandler — централизованный роутер
 func RouteHandler(tmpl, tmplError *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/":
 			handlers.IndexHandler(tmpl)(w, r)
-		case "/submit":
-			handlers.SubmitHandler(tmpl)(w, r)
 		default:
 			handlers.NotFoundHandler(w, r)
 		}
