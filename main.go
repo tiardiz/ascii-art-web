@@ -57,13 +57,15 @@ func routeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
+func indexHandler(w http.ResponseWriter, _ *http.Request) {
 	data := struct {
-		Name  string
+		Input string
 		ASCII string
+		Style string
 	}{
-		Name:  "Гость",
+		Input: "",
 		ASCII: "",
+		Style: "",
 	}
 
 	err := tmpl.Execute(w, data)
@@ -115,7 +117,6 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 			ASCII: asciiText,
 			Style: style,
 		}
-		fmt.Println("text:", text)
 
 		err = tmpl.Execute(w, data)
 		if err != nil {
