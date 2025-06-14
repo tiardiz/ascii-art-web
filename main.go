@@ -9,9 +9,14 @@ import (
 )
 
 var tmpl *template.Template
+var tmpl404 *template.Template
 
 func main() {
 	var err error
+	tmpl404, err = template.ParseFiles("templates/404.html")
+	if err != nil {
+		log.Fatalf("Ошибка загрузки шаблона 404: %v", err)
+	}
 
 	tmpl, err = template.ParseFiles("templates/index.html")
 	if err != nil {
@@ -53,7 +58,7 @@ func routeHandler(w http.ResponseWriter, r *http.Request) {
 	case "/submit":
 		submitHandler(w, r)
 	default:
-		http.NotFound(w, r) // 404
+		notFoundHandler(w, r)
 	}
 }
 
@@ -127,4 +132,13 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+}
+func notFoundHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotFound) // Устанавливаем статус 404
+
+	// Отображаем шаблон 404
+	err := tmpl404.Execute(w, nil)
+	if err != nil {
+		http.Error(w, "Ошибка отображения страницы 404", http.StatusInternalServerError)
+	}
 }
