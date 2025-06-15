@@ -13,13 +13,10 @@ var tmplError *template.Template
 
 func main() {
 	err := handlers.InitTemplates()
-	if err != nil {
-		log.Fatalf("Ошибка загрузки шаблона ошибки: %v", err)
-	}
 
 	tmpl, err = template.ParseFiles("templates/index.html")
 	if err != nil {
-		log.Fatalf("Ошибка загрузки шаблона: %v", err)
+		err = handlers.InitTemplates()
 	}
 
 	//для css и js, etc
