@@ -15,14 +15,10 @@ func main() {
 	err := handlers.InitTemplates()
 
 	tmpl, err = template.ParseFiles("templates/index.html")
-	if err != nil {
-		err = handlers.InitTemplates()
-	}
 
-	//для css и js, etc
 	http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
 		path := r.URL.Path[len("/static/"):]
-		if path == "" {
+		if path == "" || path != "" {
 			handlers.NotFoundHandler(w, r)
 			return
 		}
